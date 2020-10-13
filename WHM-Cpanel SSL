@@ -1,0 +1,46 @@
+Run below command to check and Install Auto SSl:-
+==================================================
+[root@server ~]# /usr/local/cpanel/bin/check          --------->   (Run Command)
+check_cpstore_in_sync_with_local_storage  checkmailmanhome
+check_exim_config                         checkmailmanrequests
+check_install_integrity_and_repair        checkphpini
+check_nsd_badzones                        checksshconf
+checkallsslcerts                          checkvirtfs
+checkmailmancron
+
+[root@server ~]# /usr/local/cpanel/bin/checkallsslcerts    ------------>  (Run Command)
+Output Below:-
+The system will check for the certificate for the “cpanel” service.
+The system will attempt to verify that the certificate for the “cpanel” service is still valid using OCSP (Online Certificate Status Protocol).
+The certificate for the “cpanel” service passed all checks.
+The system will check for the certificate for the “dovecot” service.
+The system will attempt to verify that the certificate for the “dovecot” service is still valid using OCSP (Online Certificate Status Protocol).
+The certificate for the “dovecot” service passed all checks.
+The system will check for the certificate for the “exim” service.
+The system will attempt to verify that the certificate for the “exim” service is still valid using OCSP (Online Certificate Status Protocol).
+The certificate for the “exim” service passed all checks.
+The system will check for the certificate for the “ftp” service.
+The system will attempt to verify that the certificate for the “ftp” service is still valid using OCSP (Online Certificate Status Protocol).
+The certificate for the “ftp” service passed all checks.
+
+
+Please follow below steps to install SSL:-
+==========================================
+Cpanel >> SECURITY >> Let's Encrypt™ SSL >> Issue
+
+To set the redirection from http to https use below code under .htaccess file:-
+----------------+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+----------------+
+
+How to redirect HTTP traffic to HTTPS using an .htaccess file
+The below code when added to an .htaccess file will automatically redirect any traffic destined for http: to https:
+----------------+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+</IfModule>
+----------------+
