@@ -1,0 +1,33 @@
+MySQL Process check:-
+=====================
+# mysqladmin pr                 -------> (mysql status)
+# watch mysqladmin pr           -------> (mysql watch)
+# mysqladmin processlist | grep unitech_uniman | wc -l
+
+
+Database Serach command:-
+=========================
+grep -lr "username_"
+
+
+MySQL Issue:-
+=============
+basically, make a backup of your crashed tables. edit your /etc/my.cnf and add
+innodb_force_recovery = 1
+mysql> SELECT @@sql_mode;
+sql_mode=""
+
+
+Repair database by using command:-
+==================================
+myisamchk -r -f ./pluggddc_speed_test/bumb_info_latest        ---------------- > ( Run command under /var/lib//mysql/ )
+myisamchk  --force --update-state /var/lib/mysql/pluggddc_speed_test/bumb_info_latest.MYI
+myisamchk  -r /var/lib/mysql/pluggddc_speed_test/bumb_info_latest.MYI
+
+
+MySQL Commands:-
+================
+show variables like '%strict%';                          --->     To Show tables premission
+set global innodb_strict_mode=OFF;
+mysql -u username -p domain_db < domain_db.sql
+
