@@ -1,0 +1,23 @@
+Please follow below steps to install SSL:-
+------------------------------------------
+
+Cpanel >> SECURITY >> Let's Encrypt™ SSL >> Issue
+
+To set the redirection from http to https use below code under .htaccess file:-
+
+----------------+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+----------------+
+
+How to redirect HTTP traffic to HTTPS using an .htaccess file
+
+The below code when added to an .htaccess file will automatically redirect any traffic destined for http: to https:
+----------------+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+</IfModule>
+----------------+
