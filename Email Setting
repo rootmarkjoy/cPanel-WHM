@@ -1,3 +1,8 @@
+Outlook setting we need this both setting disabled:-
+-----------------------------------------------------
+Allow weak SSL/TLS ciphers [?] OFF
+Require clients to connect with SSL or issue the STARTTLS command before they are allowed to authenticate with the server. [?] OFF
+
 Outlook setting:-
 -----------------
 If you are using outlook to send and receive emails please refer the following settings to setup an email account in outlook :-
