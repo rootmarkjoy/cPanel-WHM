@@ -1,0 +1,130 @@
+Outlook setting:-
+-----------------
+If you are using outlook to send and receive emails please refer the following settings to setup an email account in outlook :-
+
+Display Name :- user@yourdomain.com
+Internet E-mail Address :- user@yourdomain.com
+Incoming mail POP Server :- mail.yourdomain.com
+Outgoing mail SMTP Server :- mail.yourdomain.com
+Account name :- user@yourdomain.com
+Password :- Enter the password of the email account
+
+check again for click for "My server requires authentication" box under server option.
+check click if you want copy of emails on mail server under advance option
+
+Outgoing mail (SMTP): 25 , 587
+Incoming mail: 110 (POP) , 143(IMAP)
+
+With SSL box unchecked.
+
+
+Outlook 2010 settings:-
+-----------------------
+1.Select the 'File' menu.
+2Select Info.
+3.Click the "Add Account" button.
+4.Choose to "Manually configure server settings" .
+5.Click Next.
+6.Choose "Internet E-Mail"
+7.Click Next.
+Display Name :- user@yourdomain.com
+Internet E-mail Address :- user@yourdomain.com
+Incoming mail POP Server :- mail.yourdomain.com
+Outgoing mail SMTP Server :- mail.yourdomain.com
+Account name :- user@yourdomain.com
+Password :- Enter the password of the email account
+
+8. Click the More Settings button.
+9.Click the Outgoing Server tab.
+check again for click for "My server requires authentication" box under server option.
+check click if you want copy of emails on mail server under advance option
+
+10. Click the Advanced tab.
+Outgoing mail: 25(SMTP) or 587
+Incoming mail: 110(pop3) 143(IMAP)
+
+11.Click the OK button.
+
+
+Kindly configure your emails using below settings for without SSL:-
+-------------------------------------------------------------------
+User : Complete email address
+Password : Password for your email account
+Incoming mail server : mail.domainname Outgoing
+mail server : mail.domainname
+POP Port : 110
+IMAP port : 143
+SMTP Port : 25
+SMTP Authentication : Enabled
+SSL : Disabled
+
+Kindly configure your emails using below settings for with SSL:-
+----------------------------------------------------------------
+User : Complete email address
+Password : Password for your email account
+Incoming mail server : mail.domainname
+Outgoing mail server : mail.domainname
+IMAP port : 143
+SMTP Port : 25
+SMTP Authentication : Enabled
+SSL : auto
+
+
+Android:-
+---------
+Adding an IMAP/POP3 mailbox to an Android device. To set up an Android device for use with an IMAP/POP3 mailbox, please follow these instructions.
+
+1) From your home screen select the application draw button to show all of your applications.
+2) Find the "mail" application and open it..
+3) If this is your first email account, you will be presented with an email setup screen. Select the "Other(POP3/IMAP)" option. Otherwise, press the Menu button, tap Accounts, press the Menu button, and tap Add account.
+4) In the first box add your email address, and in the second, enter the password associated with your email account.
+5) Tap the Manual setup button. The screen should now be populated with some of the following settings.
+Please replace any that are missing or incorrect with the correct values.
+Protocol: IMAP or POP3 (IMAP is prefered for mobile devices)
+Email address: Your full email address Usernname:
+Your full email address Password: Your mailbox password
+IMAP/POP3 server: mail.domain.com
+Security Type: None or SSL Leave the port unchanged or at 143
+6) Press next. You will now be presented with the outgoing mailserver options.
+Make sure the following settings are populated and correct.
+Login Required: Yes
+Username: Full email address
+Password: Your mailbox password
+SMTP Server: mail.domain.com
+Security type: None or SSL. Leave the port unchanged or at port 25 Now you just need to choose your account name and your name as you wish to appear in the from field.
+Click "Finish Setup" and you should be done.
+
+
+Iphone:-
+--------
+1) Look for your Settings icon. Click on it to start.
+2) Look for the icon labeled Mail,Contacts, Calendars.
+3) Next, click on Add Account.
+4) Choose Other in order to add your Hosting email account.
+5) You will see yet another option that asks you to Add Mail Account. Click on this option to proceed.
+6) fill in the information for your email account. This includes your name, your email address, password and a description of the mail account.
+7) The next screen includes the settings for both the incoming and outgoing mail server. You can use below settings
+Incoming and outgoing mail server:  server7.4goodhosting.com or mail.prioritybuildingservices.com
+Ports: IMAP 143 (with SSL 993)
+       POP3 110 (with SSL 995)
+	   SMTP 587 (with SSL 465)
+8) After you fill in each section for the incoming and outgoing server, your phone will attempt to verify the server. If you see the warning "Cannot verify server identity", please click on Details. You will then see the details for the certificate in use. Make sure to select to trust the certificate. The certificate is a self-signed certificate used by email server. The certificate information should show that it is coming from your mail server. If it is, then click the options to trust the certificate and then your iPhone will be able to confirm the server.
+9) You will briefly see a screen checking off everything for the email account followed by a screen which has sliders for enabling Mail and Notes. At the top of the screen will be options to Cancel or Save. Click on Save to proceed with adding your email account.
+Please have a look.
+
+
+Iphone Mailing setting:-
+------------------------
+Please follow the steps to configure your email account in Iphone:
+1. Tap Settings > Mail, Contacts, Calendars > Add Account.
+2. Tap Microsoft Exchange.
+3. You don’t need to enter anything in the Domain box. Enter the information requested in the Email, Username, and Password boxes. You need to enter your full e-mail address in the Email and Username boxes (for example, tony@contoso.com).
+4. In the Server box, enter your server name, and then tap Next.
+Choose the type of information you want to synchronize between your account and your device, and then touch Save. By default, Mail, Contacts, and Calendar information are synchronized.
+------------+
+Mail servers and port numbers:
+Incoming Mail Server: mail.domainname.com
+Outgoing Mail Server: mail.domainname.com
+Incoming Port: 110 (pop) 143 (imap)
+Outgoing Port: 25 or 26 or 587.
+------------+
