@@ -1,0 +1,17 @@
+*****************
+Powerful SEO Tools Plugin
+*****************
+
+Attracta’s powerful SEO tools integrate perfectly with the cPanel web hosting control panel. That’s why Attracta has been installed on more cPanel servers than any other plugin!
+
+**** Step 1 ****
+Login to your VPS or Dedicated server using SSH protocol Please note that you must have “root” access to your server to install the plugin
+
+**** Step 2 ****
+run the following commands:-
+# wget -N www.attracta.com/static/download/cpanel-install
+# sh cpanel-install
+
+**** Step 3 ****
+Login to WHM >> Plugins >> Attracta SEO and Marketing Tools : then you can Link your server to your Attracta Partner Account
+
