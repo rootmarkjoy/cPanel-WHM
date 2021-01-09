@@ -1,0 +1,60 @@
+Apache:-
+--------
+Apache is the web server that is typically utilized by cPanel.  On cPanel servers Apache does write to a rather high number of logs as each site has its own traffic log.
+
+/usr/local/apache/logs/access_log
+
+The access_log is used to log all http requests to either the hostname of the server, requests directed at the servers IPs, or sites that resolve to the server but are no longer hosted on it.
+
+/usr/local/apache/logs/error_log
+
+On cPanel servers all Apache errors, regardless of site, are logged in the error_log.
+
+/usr/local/apache/domlogs
+
+Within the domlogs folder, each site on the server will have its own log file.  These files will be the fully qualified domain name for the domain, i.e. domain.com, example.com.  All http traffic to a site will be logged in this log file.
+
+Exim:-
+------
+Exim is the MTA(Mail Transfer Agent) that cPanel utilizes.  Exim has three primary logs, but only two of these logs contain useful information.
+
+/var/log/exim_mainlog
+
+The exim_mainlog contains ALL interactions that exim handles, so both incoming and outgoing mail transactions.
+
+/var/log/exim_rejectlog
+
+The exim_rejectlog contains all connection attempts that were denied.  This information is also logged in the exim_mainlog.
+
+For more information on Exim’s logs, try a Google search for “Exim Cheat Sheet”.
+
+cPanel:-
+--------
+Cpanel does log all http traffic to WHM, webmail, and cPanel access.  All cPanel logs are located in the /usr/local/cpanel/logs directory.
+
+/usr/local/cpanel/logs/access_log
+
+This access_log contains all traffic to WHM, cPanel, and webmail over http.
+
+/usr/local/cpanel/logs/error_log
+
+This error_log contains all errors that occur when accessing a cPanel related site over http or https.
+
+FTP:-
+-----
+Regardless of FTP daemon in use, cPanel does log connections, uploads, and downloads.  However, FTP does not have its own log file it is instead threaded into the system side messages log file.
+
+/var/log/messages
+
+All FTP transactions are recorded in messages.  They are however interwoven with all other system messages that are logged in this file.
+
+SSH:-
+-----
+SSH (aka Secure Shell) is a secure way of logging into a server remotely from another computer. On almost all servers the SSH service will be logging into the secure & system side messages log files.
+
+/var/log/secure
+/var/log/messages
+
+All authentication related SSH transactions are recorded in secure & commands issued over an SSH connection will be logged in messages.
+
+SSH lines logged to messages are interwoven with all other system messages that are logged in this file.
