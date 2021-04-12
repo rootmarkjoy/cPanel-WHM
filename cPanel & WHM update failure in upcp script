@@ -1,6 +1,34 @@
 # cPanel-WHM
 cPanel/WHM Documentation
 
+rpmdb open failed:- When trying to work with Yum, such as performing a 'yum update' on the system, you may encounter the following error:
+
+============================================================
+Error:
+# yum update
+mut_tas:172, pid: 581778, flag: 19
+error: db5 error(-30973) from dbenv->failchk: BDB0087 DB_RUNRECOVERY: Fatal error, run database recovery
+error: cannot open Packages index using db5 -  (-30973)
+error: cannot open Packages database in /var/lib/rpm
+CRITICAL:yum.main:
+
+Error: rpmdb open failed
+============================================================
+
+
+
+Solution to fix issue:-
+-----------------------
+In order to resolve this issue you would want to attempt a rebuild of the RPM database using the WHM >> Rebuild RPM Database tool.  
+This tool is similar to running the following commands on the system:-
+
+Code:-
+mkdir /root/old_rpm_dbs/
+mv /var/lib/rpm/__db* /root/old_rpm_dbs/
+rpm --rebuilddb -vv
+yum clean all
+
+
 Please follow these steps to backup and rebuild the rpmdb database:-
 
 Code:-
