@@ -1,0 +1,14 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+Please follow these steps to backup and rebuild the rpmdb database:-
+
+Code:-
+mkdir /var/lib/rpm/backup
+cp -a /var/lib/rpm/__db* /var/lib/rpm/backup/
+rm -f /var/lib/rpm/__db.[0-9][0-9]*
+rpm --quiet -qa
+rpm --rebuilddb
+yum clean all
+
+After this try /usr/local/cpanel/scripts/upcp --force
