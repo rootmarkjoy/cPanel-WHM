@@ -1,0 +1,153 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+What is Varnish Cache?
+Varnish Cache is a web app accelerator, also known as a reverse http proxy, it is wiedely used to speed up small and big web applications, as well as heavy traffic APIs.
+It works in front of an HTTP web server like Apache or Nginx, and to start using it the only thing you have to do is to configure a few variables on the server configuration files, like the storage cache destiny.
+
+
+1. Install Varnish Cache on cPanel + CentOS 7:-
+-----------------------------------------------
+
+Create a new repo file for Varnish:
+$ nano -w /etc/yum.repos.d/varnishcache_varnish5.repo
+
+
+Paste this content inside:-
+
+[varnishcache_varnish5]
+name=varnishcache_varnish5
+baseurl=https://packagecloud.io/varnishcache/varnish5/el/7/$basearch
+repo_gpgcheck=1
+gpgcheck=0
+enabled=1
+gpgkey=https://packagecloud.io/varnishcache/varnish5/gpgkey
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[varnishcache_varnish5-source]
+name=varnishcache_varnish5-source
+baseurl=https://packagecloud.io/varnishcache/varnish5/el/7/SRPMS
+repo_gpgcheck=1
+gpgcheck=0
+enabled=1
+gpgkey=https://packagecloud.io/varnishcache/varnish5/gpgkey
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+
+Clean yum cache and enable the Varnish Cache repository:-
+
+$ yum -q makecache -y --disablerepo='*' --enablerepo='varnishcache_varnish5'
+
+Install Varnish on cPanel
+
+$ yum install varnish varnish-devel
+
+That’s it, you have Varnish installed, now let’s see how to create a simple configuration.
+Edit the following file:
+
+$ nano -w /etc/varnish/varnish.params
+
+Leave the variable: VARNISH_LISTEN_PORT using the 80 port,  as you see below:
+
+VARNISH_LISTEN_PORT=80
+
+Save the changes pressing CTRL + X and then Y.
+Edit default.vlc configuration file:
+
+$ nano -w /etc/varnish/default.vcl
+
+At “backend default”, set the following values:
+
+backend default {
+.host = "XX.XX.XX.XX";
+.port = "8080";
+}
+
+Make sure you replace XX.XX.XX.XX with your real server IP.
+On the same file, scroll down until you see the sub vlc_recv section, if it is not present, add it and make sure it is as you see below:
+
+sub vcl_recv {
+if (req.url ~ "\.(png|gif|jpg|swf|css|js)$") {
+return(hash);
+}
+}
+
+Save your changes and exit the file.
+Some binary changes are necessary in order to have Varnish Cache working on cPanel.
+
+$ chmod 755 /usr/bin/gcc -v
+$ chmod 755 /usr/bin/ld -v
+
+By the way, remember to open 8080 port on your firewall at TCP IN and TPC OUT, just in case.
+Change Apache port to listen on 8080 on WHM control panel
+As Varnish will listen on the 80 port, it can not run at the same time that Apache does on the same port. That’s why we will change Apache port to listen on an alternative port, like 8080.
+
+Move to WHM > Tweak Settings.
+Select “Apache non-SSL IP/port” and set 8080.
+Save the changes.
+Finally, restart Apache from the root terminal:
+
+$ systemctl restart httpd.service
+
+Now we are ready to enable Varnish.
+
+2. Start Varnish Cache on cPanel:-
+----------------------------------
+Now start the varnish server as you see below:
+
+$ varnishd -d -f /etc/varnish/default.vcl
+
+or directly using systemctl
+
+$ systemctl restart varnish.service
+
+Make sure it is enabled at boot time:
+
+$ systemctl enable varnish.service
+
+If you get an ouput similar to what you see below, then it means Varnish is working as expected:
+
+[root@server.nixcp.com:~]varnishd -d -f /etc/varnish/default.vcl
+Debug: Platform: Linux,3.10.0-714.10.2.lve1.4.63.el7.x86_64,x86_64,-junix,-smalloc,-smalloc,-hcritbit
+200 304
+-----------------------------
+Varnish Cache CLI 1.0
+-----------------------------
+Linux,3.10.0-714.10.2.lve1.4.63.el7.x86_64,x86_64,-junix,-smalloc,-smalloc,-hcritbit
+varnish-5.2.0 revision 4c4875cbf
+
+Type 'help' for command list.
+Type 'quit' to close CLI session.
+Type 'start' to launch worker process.
+
+
+That’s all, at this time you should have Varnish Cache installed and working properly on your cPanel server serving the static files.
+
+3. Test Varnish:-
+-----------------
+Now that Varnish is running, we need to test if it is working or not.
+
+The best way to test it is using my beloved curl command.
+
+$ curl -I XX.XX.XX
+
+Replace “XX.XX.XX.XX” with your server IP address.
+You should see something like this, showing the “Via: Varnish/5.x” on the headers.
+
+[webtech@server.nixcp.com ~]$ curl -I XX.XX.XX
+HTTP/1.1 200 OK
+Date: Mon, 09 Oct 2017 11:48:33 GMT
+Server: Apache
+Last-Modified: Thu, 30 Jun 2016 14:48:01 GMT
+Content-Length: 111
+Content-Type: text/html
+X-Varnish: 686055
+Age: 0
+Via: 1.1 varnish (Varnish/5.2)
+Accept-Ranges: bytes
+Connection: keep-alive
+
