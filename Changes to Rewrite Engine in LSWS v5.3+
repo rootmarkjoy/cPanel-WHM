@@ -1,0 +1,29 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+
+Changes to Rewrite Engine in LSWS v5.3+
+In previous versions of LiteSpeed Web Server (v5.2.x and lower), certain rewrite rules were processed differently than they were with Apache. LSWS v5.3 has addressed these inconsistencies, and now the LiteSpeed rewrite engine matches Apache behavior.
+
+This is good news, and means better Apache compatibility. However, if you have previously relied on these differences in your own rewrite rules, you may have rewrite rules that are now broken after upgrading to 5.3. Some minor changes should fix the issue.
+
+RewriteBase
+LSWS 5.3 now ignores RewriteBase / in a subdirectory (like Apache does). If you've previously used it as a feature with v5.2.x and lower, it will break when you upgrade to 5.3.
+
+To fix the problem, rewrite to the absolute URL instead of a relative URL, or fix the rewrite base.
+
+In /home/user1/public_html/sub1/.htaccess, which is the sub1 subfolder of the domain's document root:-
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(.*) index.php [L]
+</IfModule>
+
+Simply replace:-
+RewriteBase /
+RewriteRule ^(.*) index.php [L]
+
+With:-
+RewriteRule ^(.*) /index.php [L]
+This will work on both LSWS v5.3.x and LSWS v5.2.x, and on Apache.
