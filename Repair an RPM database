@@ -1,0 +1,46 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+Introduction:-
+Incomplete or inconsistent data may be written to the rpmdb, causing corruption when a crash event occurs for an RPM or YUM transaction that was updating the RPM database.
+The reason for the crash could be a variety of reasons such as killing the process prematurely, resource or disk issues. 
+
+A crashed RPM database can cause a myriad of issues related to package-management.
+Software such as EasyApache4 and YUM will also not work until the RPM database is in a functional state.
+
+Due to this, one of cPanel & WHM's tasks during update sessions includes performing a check of the database and attempting a repair if needed.
+However, sometimes you may need to run this process manually.
+
+ 
+Procedure:-
+There are two ways to perform this check, one via the interface and via the command-line.
+
+ 
+Interface:-
+  * Navigate to the following tool via the WHM and click proceed to start the process
+    * WHM >> Rebuild RPM Database
+
+
+Command-line:-
+  * From the command line, while logged in as root, you may simply execute the following script
+    * # /scripts/find_and_fix_rpm_issues
+      
+      * USAGE
+        # scripts/find_and_fix_rpm_issues [--findonly] [--rebuildonly] [--help]
+
+        DESCRIPTION
+        Detects problems with the rpm database and will rebuild the database if it
+        detects problems. Exits 0 if RPM is working properly, or if we were able
+        to fix it by rebuilding its database.
+
+        This script also detects duplicate cPanel RPMs, removes, and then
+        re-installs them if necessary.
+
+        --findonly - Detect and report problems. Do not make any changes.
+
+        --rebuildonly - Unconditionally rebuild the RPM database.
+ 
+
+If you ever experience that the script times out or does not respond, you may want to view this article which describes possible causes.
+
+URL: https://support.cpanel.net/hc/en-us/articles/360052489913-How-to-repair-an-RPM-database
