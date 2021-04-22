@@ -1,0 +1,272 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+Introduction
+
+Please bear in mind that this guide only explains how to install Elasticsearch Version: 6.8.12. Additionally, there is no information regarding the provision and configuration of Elasticsearch, as such tasks fall strictly within the responsibilities of a general system administrator and as a result beyond the scope of our support. 
+The purpose of this guide is purely informational and as such cPanel, LLC will not assume responsibility for any potential adverse outcomes that might arise from its adoption.
+You may, therefore, wish to seek assistance from a qualified system administrator regarding this issue, as one would have the tools and knowledge in order to adjust this for you. 
+You can refer to this link for more information: 
+
+https://support.cpanel.net/hc/en-us/articles/360051846474-System-Administration-Services
+
+For questions regarding Elasticsearch's provision and configuration, you need to refer to Elasticsearch's official documentation at this link: 
+
+https://www.elastic.co/guide/index.html
+
+
+Procedure
+---------
+Installing Java:-
+
+Since Elasticseach is written in Java, so before anything else, you will need to install a Java Runtime Environment (JRE) on your server. You can use the native CentOS OpenJDK package for the JRE:
+
+||===========================================================================================||
+yum install java
+
+- - - - - - - - - - - - - - - - - - - - - - - - - -
+OR FOR THE CURRENT LATEST VERSION: 
+
+yum install java-1.8.0-openjdk.x86_64
+||===========================================================================================||
+
+
+To verify your JRE is installed and can be used, run the command:-
+
+||===========================================================================================||
+java -version
+
+openjdk version "1.8.0_262"
+OpenJDK Runtime Environment (build 1.8.0_262-b10)
+OpenJDK 64-Bit Server VM (build 25.262-b10, mixed mode)
+||===========================================================================================||
+
+
+Downloading and Installing Elasticsearch:-
+
+The next step is to download Elasticsearch's RPM package and then install it on the server: ( Please keep in mind that here we are using the current location of the Elasticsearch RPM package for an earlier version only for demonstration purposes ):
+
+Before installing Elasticsearch, add the elastic.co key to the server:-
+
++===========================================================================================+
+sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
++===========================================================================================+
+
+Next, add the Elastic repository. Use your preferred text editor to create the file elasticsearch.repo in the /etc/yum.repos.d/ directory. Here, we’ll use the vi text editor:
+
+||===========================================================================================||
+sudo vi /etc/yum.repos.d/elasticsearch.repo
+||===========================================================================================||
+
+To provide yum with the information it needs to download and install the components of the Elastic Stack, enter insert mode by pressing i and add the following lines to the file:
+
+||===========================================================================================||
+[elasticsearch-6.x]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+||===========================================================================================||
+
+When you’re finished, press ESC to leave insert mode, then :wq and ENTER to save and exit the file. The next step is to install Elasticsearch with the following command:- 
+
+||===========================================================================================||
+sudo yum install elasticsearch
+||===========================================================================================||
+
+Once Elasticsearch is finished installing, open its main configuration file, elasticsearch.yml, in your editor:-
+
+||===========================================================================================||
+sudo vi /etc/elasticsearch/elasticsearch.yml
+||===========================================================================================||
+
+Elasticsearch listens for traffic from everywhere on port 9200. You will want to restrict outside access to your Elasticsearch instance to prevent outsiders from reading your data or shutting down your Elasticsearch cluster through the REST API. Find the line that specifies network.host, uncomment it, and replace its value with localhost so it looks like this:-
+
+||===========================================================================================||
+. . .
+network.host: localhost
+. . .
+||===========================================================================================||
+
+Now that we are done with the installation process, we need to run the Elasticsearch service. 
+ 
+Running Elasticsearch As A Service:- 
+
+Note:  There have been some issues enabling the Elasticsearch service with versions 7.3 and above, so it's recommended not to use those if at all possible. 
+
+After the installation is complete, the Elasticsearch service needs to be enabled and then started by using the following commands:- 
+
+||===========================================================================================||
+/bin/systemctl daemon-reload
+/bin/systemctl enable elasticsearch.service
+/bin/systemctl start elasticsearch.service
+/bin/systemctl status elasticsearch.service
+● elasticsearch.service - Elasticsearch
+Loaded: loaded (/usr/lib/systemd/system/elasticsearch.service; enabled; vendor preset: disabled)
+Active: active (running) since Fri 2020-09-18 23:08:36 CDT; 5s ago
+Docs: http://www.elastic.co
+Main PID: 20514 (java)
+CGroup: /system.slice/elasticsearch.service
+├─20514 /bin/java -Xms1g -Xmx1g -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -Des.networkaddress.cache.ttl=...
+└─20578 /usr/share/elasticsearch/modules/x-pack-ml/platform/linux-x86_64/bin/controller
+└─20578 /usr/share/elasticsearch/modules/x-pack-ml/platform/linux-x86_64/bin/controller
+||===========================================================================================|| 
+
+And finally, to confirm the successful installation you can run either of these commands:- 
+
+||===========================================================================================||
+/usr/share/elasticsearch/bin/elasticsearch --version
+
+Version: 6.8.12, Build: default/rpm/7a15d2a/2020-08-12T07:27:20.804867Z, JVM: 1.8.0_262
+||===========================================================================================||
+OR: 
+||===========================================================================================||
+curl -XGET 'http://localhost:9200'
+
+{
+"status" : 200,
+"name" : "Paradigm",
+"cluster_name" : "elasticsearch",
+"version" : {
+"number" : "6.8.12",
+"build_hash" : "05d4530971ef0ea46d0f4fa6ee64dbc8df659682",
+"build_timestamp" : "2019-10-15T09:14:17Z",
+"build_snapshot" : false,
+"lucene_version" : "4.10.4"
+},
+"tagline" : "You Know, for Search"
+}
+||===========================================================================================||
+
+You need to make sure that port 9200 is open otherwise you will see this connection refused error:-
+
+||===========================================================================================||
+curl -XGET 'http://localhost:9200/'
+
+curl: (7) Failed connect to localhost:9200; Connection refused
+||===========================================================================================||
+
+A Very Important Note:- 
+
+To be able to run the Elasticsearch service you need a system with these minimum requirements:-
+
+RAM: 4GB
+CPU: 2
+If you system does not meet these requirements then you may face issues with the Ealsticsearch service getting killed by the OOM killer. For more information about the Linux OOM killer please refer to this link:
+
+https://support.cpanel.net/hc/en-us/articles/360052914574-What-Is-the-OOM-Killer-
+
+If you experience a situation in which Elastisearch service is killed abruptly with no apparent reason, then more than likely the issue is related to OOM killer. You might be able to confirm that by running this command:
+ 
+||===========================================================================================||
+grep -i "Out of memory" /var/log/messages | grep -i java
+
+Sep 18 23:01:00 server kernel: Out of memory: Kill process 19539 (java) score 362 or sacrifice child
+Sep 18 23:09:09 server kernel: Out of memory: Kill process 20514 (java) score 377 or sacrifice child
+Sep 18 23:09:31 server kernel: Out of memory: Kill process 20514 (java) score 377 or sacrifice child
+Sep 18 23:19:36 server kernel: Out of memory: Kill process 21254 (java) score 382 or sacrifice child
+Sep 18 23:19:51 server kernel: Out of memory: Kill process 21254 (java) score 383 or sacrifice child
+Sep 18 23:20:06 server kernel: Out of memory: Kill process 21344 (java) score 380 or sacrifice child
+Sep 18 23:20:22 server kernel: Out of memory: Kill process 21344 (java) score 380 or sacrifice child
+||===========================================================================================||
+
+OR ALTERNATIVELY: (This command might take some time to show any output. Look for lines containing the string "java")
+
+||===========================================================================================||
+systemctl start elasticsearch;tail -f /var/log/messages | grep -Ei "(out of memory)" --line-buffered
+
+Sep 19 00:12:31 server kernel: Out of memory: Kill process 25011 (java) score 380 or sacrifice child
+Sep 19 00:12:32 server kernel: Out of memory: Kill process 25011 (java) score 380 or sacrifice child
+Sep 19 00:12:33 server kernel: Out of memory: Kill process 25074 (VM Periodic Tas) score 380 or sacrifice child
+.....
+||===========================================================================================|| 
+
+In cases similar to this you either need to increase both the CPU numbers and also the RAM on the server or to choose a different server for installation.  
+
+=========================================================================
+
+Other Versions of Elasticsearch:- 
+
+For installing more recent versions of Elasticsearch you can refer to this guide:-
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html
+
+ 
+One of the common issues with installing ElasticSearch along with cPanel is an incompatibility coming from ElasticSearch that requires version +7.x to have the noexec flag removed from the /tmp partition. Security-wise this is not good practice, so naturally, it would not be practiced or recommended by cPanel. Nonetheless, I will include a workaround here in case someone runs into this issue, but please bear in mind that this is only informational and you will be solely responsible for following these steps and any of its potential outcomes. 
+
+
+Symptom:- 
+After successfully installing ElasticSearch +7.X you are not able to start the service. The following command fails:- 
+ 
+||===========================================================================================||||===========================================================================================||
+systemctl start elasticsearch
+||===========================================================================================||
+
+Explanation of the issue:- 
+
+Here is a snippet explaining what the issue really is:- 
+
+Elasticsearch uses the Java Native Access (JNA) library for executing some platform-dependent native code. On Linux, the native code backing this library is extracted at runtime from the JNA archive. By default, this code is extracted to the Elasticsearch temporary directory which defaults to a sub-directory of /tmp. Alternatively, this location can be controlled with the JVM flag -Djna.tmpdir=<path>. As the native library is mapped into the JVM virtual address space as executable, the underlying mount point of the location that this code is extracted to must not be mounted with noexec as this prevents the JVM process from being able to map this code as executable. On some hardened Linux installations this is a default mount option for /tmp. One indication that the underlying mount is mounted with noexec is that at startup JNA will fail to load with a java.lang.UnsatisfiedLinkerError exception with a message along the lines of failed to map segment from shared object. Note that the exception message can differ amongst JVM versions. Additionally, the components of Elasticsearch that rely on the execution of native code via JNA will fail with messages indicating that it is because JNA is not available. If you are seeing such error messages, you must remount the temporary directory used for JNA to not be mounted with noexec.
+
+Workaround:- 
+
+1- Change the tmpdir in the sysconfig file: (This step is not necessary if the value is already /tmp)
+
+||===========================================================================================||
+cat /etc/sysconfig/elasticsearch | grep -Eiv "(^#.*|^$)"
+
+ES_TMPDIR=/usr/share/elasticsearch/tmp
+ES_PATH_CONF=/etc/elasticsearch
+ES_STARTUP_SLEEP_TIME=5
+||===========================================================================================||
+Change this value to /tmp
+
+
+
+2- Create a systemd override file and change the ES_TMPDIR value: (This step is not necessary if the value is already /tmp)
+
+||===========================================================================================||
+cat /etc/systemd/system/elasticsearch.service.d/tmp_dir
+
+ES_TMPDIR=/tmp
+||===========================================================================================||
+
+You can alternatively refer to this guide for more information on how to create systemd override files:-
+
+How To Create a Systemd Override File?
+
+3- Reload all systemd daemons:-
+systemctl daemon-reload
+
+4- Confirm that the value of ES_TMPDIR has been changed in ElasticSearch's unit/service file:- 
+systemctl cat elasticsearch --no-pager | grep -Eiv "(^#.*|^$)" | grep -i TMPDIR
+
+You need to see /tmp here. 
+
+5- Remount the /tmp directory without the noexec flag:-
+mount -o remount,exec /tmp
+
+
+If you want this change to be permanent you will need to modify the /etc/fstab file. You can refer to this guide for more information:-
+https://www.cyberciti.biz/faq/linux-add-nodev-nosuid-noexec-options-to-temporary-storage-partitions/
+
+6- And finally restart ElasticSearch service: 
+systemctl restart elasticsearch
+
+After this, the service should be (re)started successfully. 
+
+Elasticsearch Support:-
+
+Please note that cPanel, LLC only supports the cPanel-provided software and does not provide support for any third-party software. 
+For questions regarding Elasticsearch, therefore, you need to use Elasticsearch support options accessible via these links:
+
+ 
+
+https://www.elastic.co/support/welcome
+
+https://www.elastic.co/guide/en/cloud/current/ec-get-help.html
+
+URL: https://support.cpanel.net/hc/en-us/articles/360055446413-How-To-Install-Run-Elasticsearch
