@@ -1,0 +1,16 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+Note:-
+------
+* This auto-installer can only be used for cPanel/WHM installations.
+* Make sure beforehand that all sites are working fine with Apache.
+* PHP must have been built with EasyApache. LiteSpeed will build its matching PHP (with LSAPI) based on this build of PHP.
+
+Login server as root user and run below commands:-
+--------------------------------------------------
+# wget https://www.litespeedtech.com/packages/cpanel/lsws_whm_autoinstaller.sh
+# chmod a+x lsws_whm_autoinstaller.sh
+# ./lsws_whm_autoinstaller.sh TRIAL 1 0 admin "Od)Xpt40v" alerts@domainname.com 1 0
+
+You can also refer to this URL: https://www.litespeedtech.com/support/wiki/doku.php/litespeed_wiki:cpanel:auto-installer
