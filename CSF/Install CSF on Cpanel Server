@@ -1,0 +1,18 @@
+CSF is commonly used firewall that provides a good level of protection with easy to manage commands. It is used for Login/Intrusion detection, SSH login notification, Excessive connection blocking, Suspicious file reporting etc.
+
+We will go through the Configuration of CSF in cPanel server and also the basic and most important configuration options in CSF configuration as below.
+
+Configure VPS (Cents os) :-
+===========================
+
+Firewall installation in shell:-
+================================
+cd /usr/src
+rm -fv csf.tgz
+wget https://download.configserver.com/csf.tgz
+tar -xzf csf.tgz
+cd csf
+sh install.sh
+
+
+URL: https://malware.expert/howto/configure-csf-with-cpanel-server/
