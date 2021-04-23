@@ -1,0 +1,127 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+Excessive Resource Usage - Process Time (PT_USERTIME)
+These are the notifications we see support requests for most commonly. These are emails sent to the administrator of the server due to excessive process time. 
+While this can be a legitimate concern, identifying processes that are or are not legitimate is not the focus of this guide. 
+To look further into whether or not the process is legitimate we suggest you work with a qualified system administrator.
+
+
+Instead for this section, we'll focus on ways to modify the CSF configuration to stop receiving these for legitimate processes.
+
+
+Example notification:-
+######################
+Code:
+Time: Wed May 16 07:01:43 2018 -0700
+Account: cptest
+Resource: Process Time
+Exceeded: 22283 > 1800 (seconds)
+Executable: /usr/local/cpanel/3rdparty/perl/526/bin/perl
+Command Line: spamd child
+PID: 15690 (Parent PID:14162)
+Killed: No
+######################
+
+
+What this notification tells us is that at 7AM Wednesday May 16 LFD checked and found that the /usr/local/cpanel/3rdparty/perl/526/bin/perl process which has PID 15690 in use by spamd child (SpamAssassin child processes) which has PID 14162 and is owned by cptest exceeded the threshold of 1800 seconds having been running for 22,283 seconds and it has not been killed.
+
+
+These are managed by the PT_USERTIME option in /etc/csf/csf.conf. A description of what this option does is as follows:-
+######################
+Code:
+# This User Process Tracking option sends an alert if any cPanel user process
+# exceeds the time usage set (seconds). To ignore specific processes or users
+# use csf.pignore
+#
+# Set to 0 to disable this feature
+PT_USERTIME = "1800"
+######################
+
+
+Modifying the Notification
+1. Disable PT_USERTIME (disable process time tracking for users)
+
+
+To do that we'll edit /etc/csf/csf.conf and set PT_USERTIME as follows:-
+######################
+Code:
+PT_USERTIME = "0"
+######################
+
+
+ We can modify the threshold too. Let's say I wanted to increase it to 1 hour (1800 seconds = 30 minutes), I'd change it to the following:-
+######################
+Code:
+PT_USERTIME = "3600"
+######################
+
+
+We can also set the cmd, exe or user values to just be ignored. This means you won't get notifications about this specific exe, cmd or user anymore and can be done by modifying /etc/csf/csf.pignore
+
+
+A description of what to place in /etc/csf/csf.pignore and the syntax:-
+######################
+Code:
+###############################################################################
+# Copyright 2006-2016, Way to the Web Limited
+# URL: http://www.configserver.com
+# Email: sales@waytotheweb.com
+###############################################################################
+# The following is a list of executables (exe) command lines (cmd) and
+# usernames (user) that lfd process tracking will ignore.
+#
+# You must use the following format:
+#
+# exe:/full/path/to/file
+# user:username
+# cmd:command line
+#
+# Or, perl regular expression matching (regex):
+#
+# pexe:/full/path/to/file as a perl regex[*]
+# puser:username as a perl regex[*]
+# pcmd:command line as a perl regex[*]
+#
+# [*]You must remember to escape characters correctly when using regex's, e.g.:
+# pexe:/home/.*/public_html/cgi-bin/script\.cgi
+# puser:bob\d.*
+# pcmd:/home/.*/command\s\to\smatch\s\.pl\s.*
+#
+# It is strongly recommended that you use command line ignores very carefully
+# as any process can change what is reported to the OS.
+#
+# For more information see readme.txt
+######################
+
+
+In our case depending on what we wanted to ignore specifically we would add the following:-
+
+To ignore the exe:-
+######################
+Code:
+exe:/usr/local/cpanel/3rdparty/perl/526/bin/perl
+######################
+
+
+To ignore the cmd:-
+######################
+Code:
+cmd:spamd child
+######################
+
+
+To ignore the user:-
+######################
+Code:
+user:cptest
+######################
+
+
+After making any modifications the firewall should be restarted and can be done easily by running:-
+######################
+Code:
+csf -r
+######################
+
+URL: https://forums.cpanel.net/resources/csf-lfd-excessive-resource-usage-process-time.463/
