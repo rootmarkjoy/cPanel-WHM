@@ -1,0 +1,60 @@
+# cPanel-WHM
+cPanel/WHM Documentation
+
+Maldet is a malware detector and scanner for Linux based servers a project designed by R-fx networks project. It can be installed on shared hosting servers like cPanel WHM and linux plesk servers which works along with Clamav tool.
+
+1. Download & Install Maldet -
+
+   cd /usr/local/src
+   wget http://www.rfxn.com/downloads/maldetect-current.tar.gz
+   tar -xzvf maldetect-current.tar.gz
+
+
+2. Go to the maldetect directory and run the installer script 'install.sh' as root:
+   
+   cd maldetect-1.5
+   ./install.sh
+
+
+3. Next, make a symlink to the maldet command in the /bin/ directory.
+
+   ln -s /usr/local/maldetect/maldet /bin/maldet
+   hash -r
+
+ 4. Configure Maldet, Install Nano editor if its not installed ( yum install nano ) -
+
+    cd /usr/local/maldetect/
+    nano conf.maldet
+
+
+5. Enable email alert by changing the value to '1'.
+  
+    email_alert="1"
+
+
+6. Set your email address .
+
+    email_addr="root@example.com"
+
+
+We will use the ClamAV clamscan binary as default scan engine because it provides a high-performance scan on large file sets. If its not installed you can install it using ( yum -y install clamav clamav-devel ) then update using ( freshclam ) command.
+
+7. Change value to '1' on line 114 - scan_clamscan="1"
+
+8.  Next, enable quarantining to move malware to the quarantine automatically during the scan process. Change value to '1' on line 180 - quarantine_hits="1"
+
+9. Change value to 1 on line 185 to enable clean based malware injections - quarantine_clean="1"
+
+10. Save and exit.
+
+
+Use Real-Time Monitoring with Maldet for active monitoring.
+
+The inotify monitoring feature is designed to monitor paths/users in real-time for file creation/modify/move operations. This option requires a kernel that supports inotify_watch (CONFIG_INOTIFY) which is found in kernels 2.6.13+ and CentOS/RHEL 5 by default.
+
+There are three modes that the monitor can be executed with and they relate to what will be monitored, they are USERS|PATHS|FILES.
+e.g: maldet --monitor users
+e.g: maldet --monitor /root/monitor_paths
+e.g: maldet --monitor /home/mike,/home/ashton
+
+URL: https://malware.expert/cpanel/install-maldet-cpanel-server/
