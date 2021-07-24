@@ -1,3 +1,7 @@
+To restart mysql:-
+==================
+systemctl start mariadb.service
+
 MySQL Process check:-
 =====================
 # mysqladmin pr                 -------> (mysql status)
