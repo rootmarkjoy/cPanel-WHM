@@ -1,0 +1,5 @@
+Roundcube database error:-                    ------>     (DATABASE ERROR: CONNECTION FAILED!)
+==========================
+rpm -e --nodeps cpanel-roundcubemail
+ /usr/local/cpanel/scripts/check_cpanel_rpms --fix
+ /usr/local/cpanel/bin/update-roundcube-sqlite-db --force
