@@ -52,3 +52,9 @@ INSERT INTO `mzel8_users` (`user_login`, `user_pass`, `user_nicename`, `user_ema
  VALUES (NULL, (Select max(id) FROM mzel8_users), 'mzel8_user_level', '10');
  
 ===================================================================
+
+how to increase phpmyadmin import file size :-
+==============================================
+pico /usr/local/cpanel/3rdparty/etc/phpmyadmin/php.ini
+post_max_size = 55M
+upload_max_filesize = 55M
