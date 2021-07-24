@@ -31,3 +31,20 @@ show variables like '%strict%';                          --->     To Show tables
 set global innodb_strict_mode=OFF;
 mysql -u username -p domain_db < domain_db.sql
 
+
+
+MySQL Query For creating new User:-   ----> (This query work only for wordpress)
+===================================
+
+INSERT INTO `mzel8_users` (`user_login`, `user_pass`, `user_nicename`, `user_email`, 
+`user_status`)
+ VALUES ('admin007', MD5('admin@007'), 'firstname lastname', 'admin@blalsteelshredding.com', '0');
+ 
+ INSERT INTO `mzel8_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) 
+ VALUES (NULL, (Select max(id) FROM mzel8_users), 
+ 'mzel8_capabilities', 'a:1:{s:13:"administrator";s:1:"1";}');
+ 
+ INSERT INTO `mzel8_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) 
+ VALUES (NULL, (Select max(id) FROM mzel8_users), 'mzel8_user_level', '10');
+ 
+===================================================================
