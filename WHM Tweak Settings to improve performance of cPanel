@@ -1,0 +1,33 @@
+Change the configuration of CPanel / WHM to improve the performance of the server and make websites faster.
+
+Disable Mailman
+If you or none of your customers aren’t running any mail listings through cPanel, it would be a good idea to disable Mailman.
+Mailaman is a tool that allows you to create mailing lists allowing you to send large number of emails, nevertheless this is not recommended as you might end up being blacklisted, if you want to use this feature for advertisement purposes use services such as mailchimp instead. You can get up to 2000 subscribers for free.
+
+To disable Mailman:-
+Go to WHM > Server Configuration > Tweak Settings > Disable Mailman   --->  (https://prnt.sc/1s32hdr)
+
+Disable Catch All:-
+Catch all can use up many resources and storage space, this feature should be disabled for spam security concerns. 
+Catch All handles all the emails that are not sent to an existing email account, by default they are stored in a default account that with time can get pretty big. To disable this feature set it to fail, it will reject the message and notify the remote SMTP server, this is in complience with SMTP RFC 5321.
+
+Go to WHM > Server Configuration > Tweak Settings > Change to :fail:-  --->   (https://prnt.sc/1s32lt2)
+
+Disable Web Stats and MySQL disk Stats:-
+Chances are that you are using third party analytics such as Google Analytics, in that case disable all Stats programs from your server as they use resources and we are not monitoring such stats. Simply disable all (Awstats reverse DNS resolution, Analog stats, Awstats stats and Webalizer stats)
+
+Go to WHM > Server Configuration > Tweak Settings > Stats Programs    --->    (https://prnt.sc/1s32y6j)
+
+This is the same scenario for MySQL, and this option in particular will speed up your performance significantly, as it says in the description in WHM: "enabling this option may cause a significant drop in performance as MySQL may become unresponsive until data collection is complete". So simply disable "Include databases in disk usage calculations" and "Use INFORMATION_SCHEMA to acquire MySQL disk usage"
+
+MySQL disk usage   --->   (https://prnt.sc/1s331xr)
+
+Disable cpanelsolr (cpanel-dovecot-solr):-
+This feature was introduced in CPanel version 64, and it indexes all the emails received accross the WHM accounts in order to improve email serch services on IMAP clients such as iOS devices, Microsoft® Outlook™, SquirrelMail, Horde, Roundcube, and Mozilla™ Thunderbird. Unfortunately this new feature has reported high usage of Memory, even on those servers that do not offer mail services, so unless this is a crutial feature that you wold like to have, we strongly recommend disabling it.
+
+Go to WHM > Server Configuration > Service Manager    --->    (https://prnt.sc/1s36h99)
+
+Conserve memory:-
+If you are constanlty maximg out your RAM memory or have limited RAM, this could be a good idea, especially if your HD is an SSD, this option will use DISK and CPU resources in combination with RAM in order to save memory. This could be a good backup plan in case the memory starts to run low, but keep in mind it might slow down the performance as it uses CPU resources.
+
+Go to WHM > Server Configuration > Tweak Settings > System    --->   (https://prnt.sc/1s36mfg)
