@@ -1,0 +1,52 @@
+we can learn how to resolve this issue: check_mysql has determined that there are corrupted database tables (eximstats):-
+-------------------------------------------------------------------------------------------------------------------------
+
+**** Error ****
+
+“check_mysql has determined that there are corrupted database tables
+
+cPanel & WHM has determined that the following database tables are corrupt:
+
+Database Error
+
+eximstats error : Record at pos: 26819502 is not remove-marked
+
+error : record delete-link-chain corrupted
+
+error : Corrupt
+
+error : record delete-link-chain corrupted
+
+error : Corrupt”
+
+**** Error ****
+
+
+
+Solution:-
+----------
+
+1) Login to WHM.
+
+2) Navigate to Home >> SQL Services.
+
+3) Click on the icon ‘Repair a MySQL Database’.
+
+4) Select the database ‘eximstats’ from the list of databases.
+
+5) Click the button ‘Repair Database’.
+
+
+**** You can resolve this issue from your back-end also ****
+
+1) Login to your server via SSH.
+
+2) Run this command to repair the database.
+# mysqlcheck -r eximstats
+
+To repair all the database.
+# mysqlcheck -r -A
+
+3) Restart the MySQL service.
+# Service mysql restart
+
