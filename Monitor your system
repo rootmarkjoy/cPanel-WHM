@@ -1,0 +1,30 @@
+Run the following commands frequently to to ensure that your system functions in the way that you expect:
+
+Check for programs on ports that you did not install or authorize:-
+# netstat -anp
+
+Check the world_writable.txt file for all of the world-writable files and directories. This command reveals locations where an attacker can store files on your system.
+# find / \( -type f -o -type d \) -perm /o+w 2>/dev/null | egrep -v '/(proc|sys)' > world_writable.txt
+Note: If you fix permissions on some improperly-written PHP and CGI scripts, the script or website may no longer function.
+
+Check the no_owner file for all files that do not have a user or group associated with them. A specific user or group should own all files, to restrict access to them.
+# find / -nouser -o -nogroup >> no_owner.txt
+
+Third-party software to monitor your system and to detect rootkits, backdoors, or other vulnerabilities:-
+http://www.chkrootkit.org/download/
+http://sourceforge.net/projects/rkhunter/
+cd /usr/local/src/
+wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz
+tar zxvf chkrootkit.tar.gz
+cd chkrootkit-0.49/
+./chkrootkit
+
+cd ..
+wget http://sourceforge.net/projects/rkhunter/files/rkhunter/1.3.8/rkhunter-1.3.8.tar.gz/download
+tar zxvf rkhunter-1.3.8.tar.gz
+cd rkhunter-1.3.8
+./installer.sh --install
+rkhunter --check
+
+
+For more detail you can refer URL: https://docs.cpanel.net/knowledge-base/security/tips-to-make-your-server-more-secure/
