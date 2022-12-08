@@ -24,23 +24,22 @@ The system will attempt to verify that the certificate for the “ftp” service
 The certificate for the “ftp” service passed all checks.
 
 
-Please follow below steps to install SSL:-
-==========================================
-Cpanel >> SECURITY >> Let's Encrypt™ SSL >> Issue
+How to install the hostname SSL certificate onto the cPanel services:-
+======================================================================
 
-To set the redirection from http to https use below code under .htaccess file:-
-----------------+
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-----------------+
+The hostname SSL certificate is applied to these cPanel services:-
 
-How to redirect HTTP traffic to HTTPS using an .htaccess file
-The below code when added to an .htaccess file will automatically redirect any traffic destined for http: to https:
-----------------+
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteCond %{HTTPS} off
-    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
-</IfModule>
-----------------+
+-> FTP Server
+-> Exim (SMTP) Server
+-> Calendar, cPanel, WebDisk, Webmail, and WHM Services
+-> Dovecot Mail Server
+
+Procedure:-
+
+1. To install an SSL certificate for your server's hostname, and also onto the WHM/cPanel services, use the following location:
+
+WHM: Home -> Service Configuration -> Manage Service SSL Certificates
+
+For more Detail you can refer this URL: https://support.cpanel.net/hc/en-us/articles/1500006417322-How-to-install-the-hostname-SSL-certificate-onto-the-cPanel-services
+
+                                                <----  The End  ---->
