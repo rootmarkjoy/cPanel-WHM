@@ -9,9 +9,12 @@ Login to your VPS or Dedicated server using SSH protocol Please note that you mu
 
 **** Step 2 ****
 run the following commands:-
+``sh
 # wget -N www.attracta.com/static/download/cpanel-install
 # sh cpanel-install
+```
 
 **** Step 3 ****
-Login to WHM >> Plugins >> Attracta SEO and Marketing Tools : then you can Link your server to your Attracta Partner Account
+Login to WHM >> Plugins >> Attracta SEO and Marketing Tools: then you can Link your server to your Attracta Partner Account
 
+Reference link: https://www.dreamwebhosts.com/billing/knowledgebase/15/How-to-install-Powerful-SEO-Tools-Plugin-for-Cpanel-Server.html
