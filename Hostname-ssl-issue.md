@@ -13,3 +13,11 @@ whmapi1 adddns domain=your.server's.hostname ip=IP
 ```
 
 #### Just edit that hostname to yours and the IP as well and then run the command.
+
+Or
+
+#### Run this command
+
+```sh
+usr/local/cpanel/bin/checkallsslcerts --verbose
+```
