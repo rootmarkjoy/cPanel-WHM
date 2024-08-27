@@ -68,3 +68,12 @@ return ("WP Login Attack",$1,"WPLOGIN","50","80,443","1");
 
 1;
 ```
+
+### Restart CSF and LFD to apply changed:
+
+```sh
+csf -r
+service lfd restart
+```
+
+https://www.fractionservers.com/knowledge-base/howto-block-xml-rpc-attacks-on-cpanel-whm-servers-using-csf/
