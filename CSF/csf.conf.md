@@ -47,7 +47,7 @@ sub custom_line {
 
 # XMLRPC
 if (($globlogs{CUSTOM1_LOG}{$lgfile}) and ($line =~ /(\S+).*] "\w*(?:GET|POST) \/\/?xmlrpc\.php.*" .*"-".* /)) {
-return ("WP XMLPRC Attack",$1,"XMLRPC","100","80,443","1");
+return ("WP XMLPRC Attack",$1,"XMLRPC","10","80,443","1");
 }
 
 # WP-LOGINS
