@@ -77,3 +77,4 @@ service lfd restart
 ```
 
 https://www.fractionservers.com/knowledge-base/howto-block-xml-rpc-attacks-on-cpanel-whm-servers-using-csf/
+https://www.digitalflare.co.uk/blog/view/blocking-wp-login-and-xmlrpc-brute-force-attacks-with-csf-cpanel/
