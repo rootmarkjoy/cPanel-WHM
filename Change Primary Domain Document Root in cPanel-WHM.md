@@ -11,20 +11,29 @@ This tutorial explains how to use “Putty”, SSH client software to access ser
 
 Find the following two lines in this file:-
 
+```sh
 vi /etc/apache2/conf/httpd.conf
+```
 
 Change the path as per requirement for example.com and www.example.com
 
 Made changes in configuration file, like "/var/cpanel/userdata/example/"
 
-
+```sh
 [root@flawless coretrade]# vi example.com
 [root@flawless coretrade]# vi example.com_SSL
+```
 
 Run the following scripts to update the user data cache and rebuild apache configuration file:-
+
+```sh
 [root@flawless config]# /scripts/updateuserdatacache
 [root@flawless config]# /scripts/rebuildhttpdconf
 Built /etc/apache2/conf/httpd.conf OK
+```
 
 Restart Apache server to load changes:-
+
+```sh
 [root@flawless config]# service httpd restart
+```
